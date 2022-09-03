@@ -119,4 +119,33 @@ teams:
   - custom_name: reflections
     engine_name: team-1__reflections
     max_allowed_running_jobs: 15
+- name: Dummy123
+  spaces:
+  - name: Manas123
+    admin_list:
+    - abc
+    - def
+  engines:
+  - custom_name: low_cost
+    container_count: 1
+    instance_type: m5d.8xlarge
+  - custom_name: high_cost
+    container_count: 1
+    instance_type: m5d.8xlarge
+  - custom_name: reflections
+    container_count: 1
+    instance_type: m5d.8xlarge
+  users:
+  - abcd
+  - efgh
+  queue:
+  - custom_name: low_cost
+    engine_name: team-1__low_cost
+    max_allowed_running_jobs: 35
+  - custom_name: high_cost
+    engine_name: team-1__high_cost
+    max_allowed_running_jobs: 10
+  - custom_name: reflections
+    engine_name: team-1__reflections
+    max_allowed_running_jobs: 15
 rules: []
