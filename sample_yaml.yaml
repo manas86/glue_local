@@ -1,0 +1,102 @@
+﻿globals:
+  managed_by: x-team
+  platform: ECP
+
+  teams_default_engine:
+    - ssh_key_name: dremio-keypair-pem
+    - instance_type: m5d.2xlarge
+    - container_count: 1
+    - shutdown_interval: 3600000
+    - cluster_type: EC2
+    - custom_name: default
+    - auto_stop_allowed: True
+    - auto_start_allowed: True
+  # add tags here
+
+  teams_default_queue:
+    -  max_allowed_running_jobs: 15
+    -  cpu_tier: HIGH
+    -  custom_name: default
+    -  concurrency: None
+    -  query_time: None
+    -  enqueue_time: None
+    -  queue_memory_limit: None
+    -  job_memory_limit: None
+    -  cpu_priority: None
+    -  max_memory_per_node_bytes: ""          #This value is in Bytes for "Queue Memory Limit per Node" 
+    -  max_query_memory_per_node_bytes: ""  #This value is in bytes for "Job Memory Limit per Node"
+    -  max_start_timeout: 600000
+    -  max_run_timeout: 36000000
+
+
+teams:
+  - name: team-1
+    spaces: 
+      - name: team-1__default
+        admin_list:
+          - email-1.com
+          - email-2.com
+      - name: team-1__special
+        admin_list:
+          - email-1.com
+          - email-2.com
+    engines:
+      - custom_name: low_cost
+        container_count: 1
+        instance_type: m5d.8xlarge      
+      - custom_name: high_cost
+        container_count: 1
+        instance_type: m5d.8xlarge        
+      - custom_name: reflections
+        container_count: 1
+        instance_type: m5d.8xlarge  
+    # Add groups below and not users. Idea is to have only a couple of items on the user list below
+    users:
+      - email-1.com
+    #Add Queues, pre-check the condition when creating the Queue, the Engine should exist
+    queue:
+      - custom_name: low_cost
+        engine_name: team-1__low_cost
+        max_allowed_running_jobs: 35
+      - custom_name: high_cost
+        engine_name: team-1__high_cost
+        max_allowed_running_jobs: 10
+      - custom_name: reflections
+        engine_name: team-1__reflections
+        max_allowed_running_jobs: 15  
+ 
+
+
+  - name: team-2
+    spaces: 
+      - name: team-2__default
+        admin_list:
+          - email-1.com
+          - email-2.com
+    engines:
+      - custom_name: low_cost
+        container_count: 1
+        instance_type: m5d.8xlarge      
+      - custom_name: high_cost
+        container_count: 1
+        instance_type: m5d.8xlarge        
+      - custom_name: reflections
+        container_count: 1
+        instance_type: m5d.2xlarge  
+    # Add groups below and not users. Idea is to have only a couple of items on the user list below
+    users:
+      - email-1.com
+      - email-2.com
+    queue:
+      - custom_name: low_cost
+        engine_name: team-2__low_cost
+        max_allowed_running_jobs: 35
+      - custom_name: high_cost
+        engine_name: team-2__high_cost
+        max_allowed_running_jobs: 10
+      - custom_name: reflections
+        engine_name: team-2__reflections
+        max_allowed_running_jobs: 15  
+    
+          
+rules: [ ]
